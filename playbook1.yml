@@ -1,0 +1,27 @@
+---
+
+- name: install and configure quagga
+  hosts:
+    - R1
+  gather_facts: yes
+  remote_user: vagrant
+  become: true
+  
+  tasks:
+    - name: install quagga
+      yum:
+      name: "{{ packages }}"
+      state: present
+    - name: enable quagga
+      systemd:
+        name: quagga
+            enabled: yes
+            state: started
+
+  vars:
+    packages:
+    - epel-release
+    - mc 
+    - quagga
+    
+   
