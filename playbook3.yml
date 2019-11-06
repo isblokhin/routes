@@ -1,7 +1,7 @@
 ---
 
   - name: install and configure quagga
-    hosts: R1
+    hosts: R3
     gather_facts: yes
     remote_user: vagrant
     become: true
@@ -15,8 +15,8 @@
     - name: copy config
       copy: src={{ item.src }} dest={{ item.dest }}
       with_items:
-        - { src: 'ospfd1.conf',  dest: '/etc/quagga/ospfd.conf' }
-        - { src: 'zebra1.conf',  dest: '/etc/quagga/zebra.conf' }
+        - { src: 'ospfd3.conf',  dest: '/etc/quagga/ospfd.conf' }
+        - { src: 'zebra3.conf',  dest: '/etc/quagga/zebra.conf' }
         - { src: 'daemons',  dest: '/etc/quagga/daemons' }
        
     - name: Give insecure permissions to an existing file
@@ -36,8 +36,8 @@
     - name: install parametrs
       lineinfile:
         path: /etc/sysctl.conf
-        line: "net.ipv4.conf.all.forwarding=1 
-              \nnet.ipv4.ip_forward=1 
+        line: "net.ipv4.conf.all.forwarding=1
+              \nnet.ipv4.ip_forward=1
                \nnet.ipv4.conf.all.rp_filter=0 "
         state: present
       notify:

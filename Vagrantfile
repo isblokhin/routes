@@ -49,12 +49,16 @@ Vagrant.configure("2") do |config|
     ansible.sudo = "true"
     end
     box.vm.provision "shell", run: "always", inline: <<-SHELL
-      sysctl net.ipv4.conf.all.forwarding=1
      echo -e "192.168.10.1 192.168.10.1 R1" >> /etc/hosts
      echo -e "192.168.10.2 192.168.30.2 R2" >> /etc/hosts
      echo -e "192.168.20.2 192.168.30.1 R3" >> /etc/hosts
       SHELL
     when "R2"
+    config.vm.provision "ansible" do |ansible|
+#    ansible.verbose = "vvv"
+    ansible.playbook = "playbook2.yml"
+    ansible.sudo = "true"
+    end
     box.vm.provision "shell", run: "always", inline: <<-SHELL
       sysctl net.ipv4.conf.all.forwarding=1	
      echo -e "192.168.10.1 192.168.10.1 R1" >> /etc/hosts
@@ -62,6 +66,11 @@ Vagrant.configure("2") do |config|
      echo -e "192.168.20.2 192.168.30.1 R3" >> /etc/hosts
       SHELL
     when "R3"
+    config.vm.provision "ansible" do |ansible|
+#    ansible.verbose = "vvv"
+    ansible.playbook = "playbook3.yml"
+    ansible.sudo = "true"
+    end
     box.vm.provision "shell", run: "always", inline: <<-SHELL
       sysctl net.ipv4.conf.all.forwarding=1
      echo -e "192.168.10.1 192.168.10.1 R1" >> /etc/hosts
